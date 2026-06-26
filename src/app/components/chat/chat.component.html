@@ -1,0 +1,117 @@
+<section class="chat-layout" [attr.aria-label]="t('chat.areaLabel')">
+  <header class="chat-header" role="banner">
+    <div class="chat-header-accent"></div>
+    <div class="status-wrapper">
+      @switch (status()) {
+        @case ('checking') {
+          <span class="status-badge checking">{{ t('chat.checking') }}</span>
+        }
+        @case ('downloading') {
+          <div class="status-group">
+            <span class="status-badge downloading">{{ t('chat.downloadingPrefix') }} {{ progress() }}%</span>
+            <div
+              class="progress-bar"
+              role="progressbar"
+              [attr.aria-valuenow]="progress()"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <div class="progress-fill" [style.width.%]="progress()"></div>
+            </div>
+          </div>
+        }
+        @case ('ready') {
+          <span class="status-badge ready">{{ t('chat.ready') }}</span>
+        }
+        @case ('error') {
+          <span class="status-badge error">{{ statusText() }}</span>
+        }
+        @default {
+          <span class="status-badge">{{ t('chat.waiting') }}</span>
+        }
+      }
+    </div>
+    @if (status() === 'ready' && activeModelId()) {
+      <span class="model-name">{{ activeModelId() }}</span>
+      <button class="btn-header-change-model" (click)="changeModel.emit()" type="button">
+        {{ t('sidebar.changeModel') }}
+      </button>
+    }
+  </header>
+
+  <div class="message-feed" #messageFeed role="log" aria-live="polite" aria-relevant="additions">
+    @for (msg of messages(); track $index; let idx = $index) {
+      @if (exchangeBoundary(idx)) {
+        <div class="exchange-divider" aria-hidden="true"></div>
+      }
+      <div
+        class="message-row"
+        [class.user]="msg.role === 'user'"
+        [class.assistant]="msg.role === 'assistant'"
+      >
+        @if (msg.role === 'user') {
+          <span class="prompt" aria-hidden="true">❯</span>
+        }
+        <div class="message-content"
+          [class.user-content]="msg.role === 'user'"
+          [class.assistant-content]="msg.role === 'assistant'"
+        >{{ msg.content }}</div>
+      </div>
+    } @empty {
+      @if (!isGenerating()) {
+        <div class="empty-chat" [attr.aria-label]="t('chat.emptyChatAria')">
+          <div class="empty-symbol" aria-hidden="true">
+            <div class="empty-diamond"></div>
+          </div>
+        </div>
+      }
+    }
+
+    @if (isGenerating()) {
+      @if (currentResponse(); as response) {
+        <div class="message-row assistant streaming-row">
+          <div class="message-content assistant-content">{{ response }}</div>
+        </div>
+      } @else {
+        <div class="message-row assistant streaming-row">
+          <div class="thinking-dots" aria-label="Sto pensando">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+          </div>
+        </div>
+      }
+    }
+  </div>
+
+  <footer class="chat-input-area">
+    <div class="input-wrapper">
+      <textarea
+        class="chat-textarea"
+        [ngModel]="inputText()"
+        (ngModelChange)="onInputChange($event)"
+        (keydown)="handleKeydown($event)"
+        rows="1"
+        [attr.placeholder]="t('chat.placeholder')"
+        [attr.aria-label]="t('chat.ariaMessage')"
+        [disabled]="isInputDisabled()"
+        [title]="isInputDisabled() ? t('chat.concurrentWarning') : ''"
+        autofocus
+      ></textarea>
+      <button
+        class="btn-send"
+        [class.btn-stop]="isCurrentThreadGenerating()"
+        (click)="isCurrentThreadGenerating() ? stopGenerating() : sendMessage()"
+        [disabled]="isInputDisabled() || (!isGenerating() && !inputText().trim())"
+        type="button"
+        [attr.aria-label]="isCurrentThreadGenerating() ? t('chat.ariaStop') : t('chat.ariaSend')"
+      >
+        @if (isCurrentThreadGenerating()) {
+          <span class="stop-icon"></span>
+        } @else {
+          <span class="send-icon" aria-hidden="true">➤</span>
+        }
+      </button>
+    </div>
+  </footer>
+</section>

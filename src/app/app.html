@@ -1,0 +1,25 @@
+<div class="app-layout">
+  <app-sidebar
+    class="sidebar-panel"
+    (clearAllRequest)="onClearAllRequest()"
+    (resetApp)="onResetApp()"
+  ></app-sidebar>
+  <app-chat class="chat-panel" (changeModel)="onRequestChangeModel()"></app-chat>
+</div>
+
+@if (showSetupModal()) {
+  <app-config-modal
+    [currentModelId]="llm.activeModelId()"
+    [isChangeModelFlow]="isChangeModelFlow()"
+    (setupComplete)="onSetupComplete()"
+    (closeModal)="onCloseChangeModel()"
+  ></app-config-modal>
+}
+
+@if (showConfirmModal()) {
+  <app-confirm-modal
+    [message]="confirmMessage()"
+    (confirm)="onConfirmModal()"
+    (cancel)="onCancelModal()"
+  ></app-confirm-modal>
+}

@@ -1,0 +1,236 @@
+@switch (setupState()) {
+  @case ('intro') {
+    <div class="setup-overlay" role="dialog" aria-modal="true" [attr.aria-label]="t('modal.modalAriaSetup')">
+      <div class="setup-panel scrollable">
+        <h2 class="setup-title">{{ t('modal.step1Title') }}</h2>
+
+        <div class="language-section">
+          <h3 class="section-label">{{ t('language.label') }}</h3>
+          <div class="language-grid">
+            @for (lang of supportedLanguages; track lang) {
+              <button
+                class="language-card"
+                [class.selected]="selectedLanguage() === lang"
+                (click)="onSelectLanguage(lang)"
+                type="button"
+                [attr.aria-label]="t('language.' + lang)"
+              >
+                {{ t('language.' + lang) }}
+              </button>
+            }
+          </div>
+        </div>
+
+        <p class="setup-subtitle">{{ t('modal.step1Subtitle') }}</p>
+
+        <div class="intro-content">
+          <ul class="intro-list">
+            <li>{{ t('modal.step1Bullet1') }}</li>
+            <li>{{ t('modal.step1Bullet2') }}</li>
+            <li>{{ t('modal.step1Bullet3') }}</li>
+            <li>{{ t('modal.step1Bullet4') }}</li>
+            <li>{{ t('modal.step1Bullet5') }}</li>
+            <li>{{ t('modal.step1Bullet6') }}</li>
+          </ul>
+        </div>
+
+        <div class="setup-actions">
+          <button
+            class="btn-primary"
+            (click)="proceedToSelection()"
+            type="button"
+          >
+            {{ t('modal.step1ProceedBtn') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @case ('checking') {
+    <div class="setup-overlay" role="dialog" aria-modal="true" [attr.aria-label]="t('modal.modalAriaSetup')">
+      <div class="setup-panel centered">
+        <div class="loader-spinner" aria-hidden="true"></div>
+        <p class="setup-title">{{ t('modal.titleChecking') }}</p>
+        <p class="setup-subtitle">{{ t('modal.subtitleChecking') }}</p>
+      </div>
+    </div>
+  }
+
+  @case ('error') {
+    <div class="setup-overlay" role="dialog" aria-modal="true" [attr.aria-label]="t('modal.modalAriaError')">
+      <div class="setup-panel centered">
+        @if (isChangeModelFlow()) {
+          <button class="btn-close-modal" (click)="cancel()" type="button" [attr.aria-label]="t('modal.cancelChangeModel')">✕</button>
+        }
+        <p class="setup-title error">{{ t('modal.titleError') }}</p>
+        <p class="setup-subtitle">{{ errorText() }}</p>
+        <button class="btn-primary" (click)="retry()" type="button">{{ t('modal.retry') }}</button>
+      </div>
+    </div>
+  }
+
+  @case ('selecting') {
+    <div class="setup-overlay" role="dialog" aria-modal="true" [attr.aria-label]="t('modal.modalAriaSetup')">
+      <div class="setup-panel selecting-layout">
+        @if (isChangeModelFlow()) {
+          <button class="btn-close-modal" (click)="cancel()" type="button" [attr.aria-label]="t('modal.cancelChangeModel')">✕</button>
+        }
+        <h2 class="setup-title">{{ t('modal.titleSelectModel') }}</h2>
+
+        @if (memoryUnknown()) {
+          <div class="warning-banner" role="alert">
+            <p>{{ t('modal.memoryUnknownBanner') }}</p>
+          </div>
+        } @else if (deviceRamGB()) {
+          <p class="setup-subtitle">{{ memoryDetectedText(deviceRamGB()!) }}</p>
+        }
+
+        <div class="accordion-area">
+          @if (recommended().length > 0) {
+            <div class="accordion" [class.open]="activeAccordion() === 'recommended'">
+              <button
+                class="accordion-header"
+                (click)="toggleAccordion('recommended')"
+                type="button"
+                [attr.aria-expanded]="activeAccordion() === 'recommended'"
+              >
+                <span class="accordion-title">{{ t('modal.recommendedTitle') }}</span>
+                <span class="accordion-chevron" [class.open]="activeAccordion() === 'recommended'">▼</span>
+              </button>
+
+              @if (activeAccordion() === 'recommended') {
+                <div class="accordion-body">
+                  <div class="recommended-list">
+                    @for (rec of recommended(); track rec.model.model_id) {
+                      <button
+                        class="recommended-card"
+                        [class.selected]="selectedModelId() === rec.model.model_id"
+                        (click)="onSelectModel(rec.model.model_id)"
+                        type="button"
+                      >
+                        <div class="recommended-header">
+                          <span class="model-id">{{ rec.model.model_id }}</span>
+                          @if (rec.model.low_resource_required) {
+                            <span class="badge">{{ t('modal.lightBadge') }}</span>
+                          }
+                        </div>
+                        <div class="recommended-meta">
+                          <span>{{ t('modal.vramLabel') }} {{ rec.model.vram_required_MB?.toFixed(1) }} MB</span>
+                        </div>
+                        <p class="recommended-label">{{ t(rec.labelKey) }}</p>
+                      </button>
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          }
+
+          <div class="accordion" [class.open]="activeAccordion() === 'all'">
+            <button
+              class="accordion-header"
+              (click)="toggleAccordion('all')"
+              type="button"
+              [attr.aria-expanded]="activeAccordion() === 'all'"
+            >
+              <span class="accordion-title">{{ t('modal.allModels') }}</span>
+              <span class="accordion-chevron" [class.open]="activeAccordion() === 'all'">▼</span>
+            </button>
+
+            @if (activeAccordion() === 'all') {
+              <div class="search-wrapper">
+                <span class="search-icon" aria-hidden="true">◆</span>
+                <input
+                  class="search-input"
+                  type="text"
+                  [value]="searchQuery()"
+                  (input)="onSearchInput($event)"
+                  [placeholder]="t('modal.searchPlaceholder')"
+                  [attr.aria-label]="t('modal.searchPlaceholder')"
+                />
+                @if (searchQuery()) {
+                  <button class="search-clear" (click)="onSearchClear()" type="button" [attr.aria-label]="t('modal.searchClear')">
+                    ✕
+                  </button>
+                }
+              </div>
+              <div class="accordion-body">
+                <ul class="model-list" role="listbox" [attr.aria-label]="t('modal.modalAriaSelect')">
+                  @for (model of filteredModels(); track model.model_id) {
+                    <li
+                      class="model-option"
+                      [class.selected]="selectedModelId() === model.model_id"
+                      (click)="onSelectModel(model.model_id)"
+                      role="option"
+                      [attr.aria-selected]="selectedModelId() === model.model_id"
+                      tabindex="0"
+                      (keydown.enter)="onSelectModel(model.model_id)"
+                    >
+                      <div class="model-header">
+                        <span class="model-id">{{ model.model_id }}</span>
+                        @if (model.low_resource_required) {
+                          <span class="badge">{{ t('modal.lightBadge') }}</span>
+                        }
+                      </div>
+                      <div class="model-meta">
+                        @if (model.vram_required_MB !== undefined) {
+                          <span>{{ t('modal.vramLabel') }} {{ model.vram_required_MB.toFixed(1) }} MB</span>
+                        } @else {
+                          <span>{{ t('modal.vramUnknown') }}</span>
+                        }
+                      </div>
+                    </li>
+                  } @empty {
+                    <li class="model-empty">{{ t('modal.noModels') }}</li>
+                  }
+                </ul>
+              </div>
+            }
+          </div>
+        </div>
+
+        <div class="setup-actions">
+          <button
+            class="btn-primary"
+            (click)="confirmConfiguration()"
+            [disabled]="!selectedModelId()"
+            type="button"
+          >
+            {{ t('modal.confirmDownload') }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+  @case ('downloading') {
+    <div class="setup-overlay" role="dialog" aria-modal="true" [attr.aria-label]="t('modal.modalAriaDownload')">
+      <div class="setup-panel centered">
+        <div class="loader-spinner" aria-hidden="true"></div>
+        <p class="setup-title">{{ t('modal.titleDownloading') }}</p>
+        <div class="progress-container">
+          <div class="progress-bar" role="progressbar" [attr.aria-valuenow]="llm.progress()" aria-valuemin="0" aria-valuemax="100">
+            <div class="progress-fill" [style.width.%]="llm.progress()"></div>
+          </div>
+          <span class="progress-text">{{ llm.progress() }}%</span>
+        </div>
+        <div class="download-note">
+          <p>{{ t('modal.downloadNote') }}</p>
+        </div>
+      </div>
+    </div>
+  }
+
+  @case ('ready') {
+    <div class="setup-overlay" role="dialog" aria-modal="true" [attr.aria-label]="t('modal.modalAriaReady')">
+      <div class="setup-panel centered">
+        <p class="setup-title success">{{ t('modal.titleReady') }}</p>
+        <p class="setup-subtitle">{{ t('modal.subtitleReady') }}</p>
+        <button class="btn-primary" (click)="enterChat()" type="button">
+          {{ t('modal.enterChat') }}
+        </button>
+      </div>
+    </div>
+  }
+}

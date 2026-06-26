@@ -1,0 +1,10 @@
+<div class="confirm-overlay" role="dialog" aria-modal="true" [attr.aria-label]="t('confirmModal.ariaLabel')">
+  <div class="confirm-panel">
+    <div class="confirm-icon" aria-hidden="true">◆</div>
+    <p class="confirm-message">{{ message() }}</p>
+    <div class="confirm-actions">
+      <button class="btn-cancel" (click)="cancel.emit()" type="button">{{ t('confirmModal.cancel') }}</button>
+      <button class="btn-confirm" (click)="confirm.emit()" type="button">{{ t('confirmModal.confirm') }}</button>
+    </div>
+  </div>
+</div>

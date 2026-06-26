@@ -1,0 +1,51 @@
+<aside class="sidebar" role="complementary" [attr.aria-label]="t('sidebar.ariaPanel')">
+  <div class="sidebar-header">
+    <div class="brand">
+      <span class="brand-symbol" aria-hidden="true">◆</span>
+      <span class="brand-text">URLLM</span>
+    </div>
+  </div>
+
+  <button class="btn-new-chat" (click)="createThread()" type="button">
+    <span class="btn-new-chat-icon" aria-hidden="true">+</span>
+    {{ t('sidebar.newChat') }}
+  </button>
+
+  <nav class="thread-list" [attr.aria-label]="t('sidebar.ariaThreadList')">
+    @for (thread of threads(); track thread.id) {
+      @let title = getTitle(thread);
+      <div
+        class="thread-item"
+        [class.active]="activeThreadId() === thread.id"
+        (click)="selectThread(thread.id)"
+        role="button"
+        tabindex="0"
+        (keydown.enter)="selectThread(thread.id)"
+        [attr.aria-label]="t('sidebar.ariaSelectConvo') + ': ' + title"
+      >
+        <span class="thread-indicator" aria-hidden="true"></span>
+        <span class="thread-title">{{ title }}</span>
+        <button
+          class="btn-delete"
+          (click)="deleteThread(thread.id, $event)"
+          type="button"
+          [attr.aria-label]="t('sidebar.ariaDeleteConvo') + ': ' + title"
+        >
+          ✕
+        </button>
+      </div>
+    } @empty {
+      <div class="empty-threads">{{ t('sidebar.noConversations') }}</div>
+    }
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="footer-divider" role="separator"></div>
+    <button class="btn-clear-all" (click)="clearAll()" type="button">
+      {{ t('sidebar.clearAll') }}
+    </button>
+    <button class="btn-reset-app" (click)="onResetApp()" type="button">
+      {{ t('sidebar.resetApp') }}
+    </button>
+  </div>
+</aside>
