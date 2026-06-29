@@ -29,9 +29,10 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run build
-
       - uses: actions/configure-pages@v5
+        id: pages
+
+      - run: npm run build -- --base-href ${{ steps.pages.outputs.base_path }}/
 
       - uses: actions/upload-pages-artifact@v3
         with:
