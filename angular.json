@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "LOCAL-LLM-TEST": {
+    "URLLM": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -61,10 +61,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "LOCAL-LLM-TEST:build:production"
+              "buildTarget": "URLLM:build:production"
             },
             "development": {
-              "buildTarget": "LOCAL-LLM-TEST:build:development"
+              "buildTarget": "URLLM:build:development"
             }
           },
           "defaultConfiguration": "development"
