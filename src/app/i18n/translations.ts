@@ -11,6 +11,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'sidebar.ariaThreadList': 'Lista conversazioni',
     'sidebar.ariaSelectConvo': 'Seleziona conversazione',
     'sidebar.ariaDeleteConvo': 'Elimina conversazione',
+    'sidebar.chatList': 'Lista chat',
 
     'chat.checking': 'Verifica WebGPU...',
     'chat.areaLabel': 'Area conversazione',
@@ -30,12 +31,10 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
 
     'modal.step1Title': 'Benvenuto!',
     'modal.step1Subtitle': 'Ecco cosa devi sapere prima di iniziare:',
-    'modal.step1Bullet1': 'Il modello AI e i dati restano nella cache del tuo browser: zero dati in cloud, zero invio a server esterni.',
-    'modal.step1Bullet2': 'Privacy assoluta: le conversazioni restano solo sul tuo dispositivo.',
-    'modal.step1Bullet3': 'Analizziamo la RAM e la potenza del tuo dispositivo per suggerirti solo i modelli compatibili. Se non riusciamo a rilevarle, ti lasciamo la scelta.',
-    'modal.step1Bullet4': 'Zero costi: non servono API key o abbonamenti, funziona anche offline.',
-    'modal.step1Bullet5': 'Attenzione: su PC o smartphone poco potenti i modelli possono essere estremamente lenti o fornire risposte errate.',
-    'modal.step1Bullet6': 'I modelli scaricati mantengono le proprie licenze d\'uso originali. Verifica i termini di ciascun modello prima dell\'utilizzo.',
+    'modal.step1Bullet1': 'Privacy assoluta: Il modello AI e le conversazioni restano nella cache del tuo browser, zero dati in cloud, zero invio a server esterni.',
+    'modal.step1Bullet2': 'Zero costi: non servono API key o abbonamenti, funziona anche offline.',
+    'modal.step1Bullet3': 'Performance limitate: analizziamo le capacità del tuo dispositivo per suggerirti solo i modelli compatibili. Su PC o smartphone poco performanti i modelli possono essere estremamente lenti o fornire risposte errate.',
+    'modal.step1Bullet4': 'I modelli scaricati mantengono le proprie licenze d\'uso originali. Verifica i termini di ciascun modello prima dell\'utilizzo.',
     'modal.step1ProceedBtn': 'Ho capito, procedi',
     'modal.downloadNote': 'Nota: questo download è richiesto solo la prima volta. Le volte successive il modello si avvierà istantaneamente dalla cache. Potrai cambiare modello o cancellare i dati in qualsiasi momento dalle impostazioni.',
 
@@ -100,6 +99,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'sidebar.ariaThreadList': 'Conversation list',
     'sidebar.ariaSelectConvo': 'Select conversation',
     'sidebar.ariaDeleteConvo': 'Delete conversation',
+    'sidebar.chatList': 'Chat list',
 
     'chat.checking': 'Checking WebGPU...',
     'chat.areaLabel': 'Conversation area',
@@ -119,12 +119,10 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
 
     'modal.step1Title': 'Welcome!',
     'modal.step1Subtitle': 'Here is what you should know before starting:',
-    'modal.step1Bullet1': 'The AI model and data stay in your browser cache: zero cloud data, zero sending to external servers.',
-    'modal.step1Bullet2': 'Absolute privacy: conversations stay only on your device.',
-    'modal.step1Bullet3': 'We analyze your device RAM and power to suggest only compatible models. If we cannot detect them, the choice is yours.',
-    'modal.step1Bullet4': 'Zero costs: no API keys or subscriptions needed, works offline too.',
-    'modal.step1Bullet5': 'Warning: on low-end PCs or smartphones, models can be extremely slow or provide incorrect answers.',
-    'modal.step1Bullet6': 'Downloaded models retain their original licenses. Check each model\'s terms before use.',
+    'modal.step1Bullet1': 'Absolute privacy: The AI model and conversations stay in your browser cache, zero cloud data, zero sending to external servers.',
+    'modal.step1Bullet2': 'Zero costs: no API keys or subscriptions needed, works offline too.',
+    'modal.step1Bullet3': 'Limited performance: we analyze your device capabilities to suggest only compatible models. On low-end PCs or smartphones, models can be extremely slow or provide incorrect answers.',
+    'modal.step1Bullet4': 'Downloaded models retain their original licenses. Check each model\'s terms before use.',
     'modal.step1ProceedBtn': 'Got it, proceed',
     'modal.downloadNote': 'Note: this download is only required the first time. Afterwards, the model will start instantly from cache. You can change the model or delete data at any time from the settings.',
 
@@ -189,6 +187,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'sidebar.ariaThreadList': 'Liste des conversations',
     'sidebar.ariaSelectConvo': 'Sélectionner la conversation',
     'sidebar.ariaDeleteConvo': 'Supprimer la conversation',
+    'sidebar.chatList': 'Liste des discussions',
 
     'chat.checking': 'Vérification WebGPU...',
     'chat.areaLabel': 'Zone de conversation',
@@ -208,12 +207,10 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
 
     'modal.step1Title': 'Bienvenue !',
     'modal.step1Subtitle': 'Voici ce que vous devez savoir avant de commencer :',
-    'modal.step1Bullet1': "Le modèle IA et les données restent dans le cache de votre navigateur : zéro donnée en cloud, zéro envoi vers des serveurs externes.",
-    'modal.step1Bullet2': "Confidentialité absolue : les conversations restent uniquement sur votre appareil.",
-    'modal.step1Bullet3': "Nous analysons la RAM et la puissance de votre appareil pour ne vous suggérer que des modèles compatibles. Si nous ne parvenons pas à les détecter, le choix vous revient.",
-    'modal.step1Bullet4': "Zéro coût : pas besoin de clé API ni d'abonnement, fonctionne aussi hors ligne.",
-    'modal.step1Bullet5': "Attention : sur des PC ou smartphones peu puissants, les modèles peuvent être extrêmement lents ou fournir des réponses erronées.",
-    'modal.step1Bullet6': "Les modèles téléchargés conservent leurs licences d'utilisation d'origine. Vérifiez les conditions de chaque modèle avant utilisation.",
+    'modal.step1Bullet1': "Confidentialité absolue : Le modèle IA et les conversations restent dans le cache de votre navigateur, zéro donnée en cloud, zéro envoi vers des serveurs externes.",
+    'modal.step1Bullet2': "Zéro coût : pas besoin de clé API ni d'abonnement, fonctionne aussi hors ligne.",
+    'modal.step1Bullet3': "Performances limitées : nous analysons les capacités de votre appareil pour ne suggérer que des modèles compatibles. Sur les PC ou smartphones peu performants, les modèles peuvent être extrêmement lents ou fournir des réponses erronées.",
+    'modal.step1Bullet4': "Les modèles téléchargés conservent leurs licences d'utilisation d'origine. Vérifiez les conditions de chaque modèle avant utilisation.",
     'modal.step1ProceedBtn': "J'ai compris, continuer",
     'modal.downloadNote': "Remarque : ce téléchargement n'est nécessaire que la première fois. Par la suite, le modèle démarrera instantanément depuis le cache. Vous pourrez changer de modèle ou supprimer les données à tout moment dans les paramètres.",
 
@@ -278,6 +275,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'sidebar.ariaThreadList': 'Gesprächsliste',
     'sidebar.ariaSelectConvo': 'Gespräch auswählen',
     'sidebar.ariaDeleteConvo': 'Gespräch löschen',
+    'sidebar.chatList': 'Chat-Liste',
 
     'chat.checking': 'WebGPU wird geprüft...',
     'chat.areaLabel': 'Gesprächsbereich',
@@ -297,12 +295,10 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
 
     'modal.step1Title': 'Willkommen!',
     'modal.step1Subtitle': 'Das sollten Sie vor dem Start wissen:',
-    'modal.step1Bullet1': 'Das KI-Modell und die Daten bleiben im Browser-Cache: keine Cloud-Daten, keine Daten werden an externe Server gesendet.',
-    'modal.step1Bullet2': 'Absolute Privatsphäre: Gespräche bleiben ausschließlich auf Ihrem Gerät.',
-    'modal.step1Bullet3': 'Wir analysieren RAM und Leistung Ihres Geräts, um nur kompatible Modelle vorzuschlagen. Wenn wir diese nicht erkennen können, liegt die Wahl bei Ihnen.',
-    'modal.step1Bullet4': 'Null Kosten: keine API-Keys oder Abonnements nötig, funktioniert auch offline.',
-    'modal.step1Bullet5': 'Achtung: auf schwachen PCs oder Smartphones können die Modelle extrem langsam sein oder falsche Antworten liefern.',
-    'modal.step1Bullet6': 'Heruntergeladene Modelle behalten ihre ursprünglichen Lizenzen. Überprüfen Sie die Bedingungen jedes Modells vor der Nutzung.',
+    'modal.step1Bullet1': 'Absolute Privatsphäre: Das KI-Modell und die Gespräche verbleiben im Browser-Cache, keine Cloud-Daten, keine Daten werden an externe Server gesendet.',
+    'modal.step1Bullet2': 'Null Kosten: keine API-Keys oder Abonnements nötig, funktioniert auch offline.',
+    'modal.step1Bullet3': 'Eingeschränkte Leistung: Wir analysieren die Fähigkeiten Ihres Geräts, um nur kompatible Modelle vorzuschlagen. Auf schwachen PCs oder Smartphones können Modelle extrem langsam sein oder falsche Antworten liefern.',
+    'modal.step1Bullet4': 'Heruntergeladene Modelle behalten ihre ursprünglichen Lizenzen. Überprüfen Sie die Bedingungen jedes Modells vor der Nutzung.',
     'modal.step1ProceedBtn': 'Verstanden, fortfahren',
     'modal.downloadNote': 'Hinweis: Dieser Download ist nur beim ersten Mal erforderlich. Danach startet das Modell sofort aus dem Cache. Sie können das Modell jederzeit wechseln oder Daten in den Einstellungen löschen.',
 

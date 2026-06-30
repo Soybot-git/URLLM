@@ -16,6 +16,9 @@
 .sidebar-header {
   padding: 0.6rem 1rem;
   border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .brand {
@@ -203,5 +206,87 @@
 .btn-reset-app {
   &:hover {
     color: var(--warning);
+  }
+}
+
+.mobile-only {
+  display: none;
+}
+
+.desktop-only {
+  display: flex;
+}
+
+.accordion-toggle {
+  display: none;
+}
+
+.collapsible-body {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .sidebar-header {
+    justify-content: space-between;
+  }
+
+  .mobile-only {
+    display: flex;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .accordion-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    padding: 0.4rem 0;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+
+    &:hover {
+      color: var(--text-primary);
+    }
+  }
+
+  .toggle-label {
+    font-family: var(--font-heading);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .chevron {
+    font-size: 0.6rem;
+    transition: transform 0.25s ease;
+
+    &.open {
+      transform: rotate(180deg);
+    }
+  }
+
+  .collapsible-body {
+    flex: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+
+    &.expanded {
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+  }
+
+  .thread-list {
+    overflow-y: visible;
   }
 }

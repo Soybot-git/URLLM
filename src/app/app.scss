@@ -17,15 +17,60 @@
   overflow: hidden;
 }
 
+.mobile-actions {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .app-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    grid-template-rows: auto 1fr auto;
   }
 
   .sidebar-panel {
     border-right: none;
     border-bottom: 1px solid var(--border);
-    max-height: 220px;
+  }
+
+  .mobile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.5rem 1rem;
+    border-top: 1px solid var(--border);
+    background: var(--bg-surface);
+
+    .btn-clear-all,
+    .btn-reset-app {
+      width: 100%;
+      padding: 0.5rem;
+      background: transparent;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 500;
+      text-align: center;
+      transition: color 0.15s, background-color 0.15s;
+    }
+
+    .btn-clear-all {
+      color: var(--text-muted);
+
+      &:hover {
+        color: var(--danger);
+        background-color: rgba(239, 68, 68, 0.08);
+      }
+    }
+
+    .btn-reset-app {
+      color: var(--text-muted);
+
+      &:hover {
+        color: var(--warning);
+        background-color: rgba(245, 158, 11, 0.08);
+      }
+    }
   }
 }

@@ -4,42 +4,54 @@
       <span class="brand-symbol" aria-hidden="true">◆</span>
       <span class="brand-text">URLLM</span>
     </div>
+    <button
+      class="accordion-toggle mobile-only"
+      (click)="toggleChatList()"
+      type="button"
+      [attr.aria-expanded]="isChatListExpanded()"
+      [attr.aria-label]="t('sidebar.chatList')"
+    >
+      <span class="toggle-label">{{ t('sidebar.chatList') }}</span>
+      <span class="chevron" [class.open]="isChatListExpanded()" aria-hidden="true">▼</span>
+    </button>
   </div>
 
-  <button class="btn-new-chat" (click)="createThread()" type="button">
-    <span class="btn-new-chat-icon" aria-hidden="true">+</span>
-    {{ t('sidebar.newChat') }}
-  </button>
+  <div class="collapsible-body" [class.expanded]="isChatListExpanded()">
+    <button class="btn-new-chat" (click)="createThread()" type="button">
+      <span class="btn-new-chat-icon" aria-hidden="true">+</span>
+      {{ t('sidebar.newChat') }}
+    </button>
 
-  <nav class="thread-list" [attr.aria-label]="t('sidebar.ariaThreadList')">
-    @for (thread of threads(); track thread.id) {
-      @let title = getTitle(thread);
-      <div
-        class="thread-item"
-        [class.active]="activeThreadId() === thread.id"
-        (click)="selectThread(thread.id)"
-        role="button"
-        tabindex="0"
-        (keydown.enter)="selectThread(thread.id)"
-        [attr.aria-label]="t('sidebar.ariaSelectConvo') + ': ' + title"
-      >
-        <span class="thread-indicator" aria-hidden="true"></span>
-        <span class="thread-title">{{ title }}</span>
-        <button
-          class="btn-delete"
-          (click)="deleteThread(thread.id, $event)"
-          type="button"
-          [attr.aria-label]="t('sidebar.ariaDeleteConvo') + ': ' + title"
+    <nav class="thread-list" [attr.aria-label]="t('sidebar.ariaThreadList')">
+      @for (thread of threads(); track thread.id) {
+        @let title = getTitle(thread);
+        <div
+          class="thread-item"
+          [class.active]="activeThreadId() === thread.id"
+          (click)="selectThread(thread.id)"
+          role="button"
+          tabindex="0"
+          (keydown.enter)="selectThread(thread.id)"
+          [attr.aria-label]="t('sidebar.ariaSelectConvo') + ': ' + title"
         >
-          ✕
-        </button>
-      </div>
-    } @empty {
-      <div class="empty-threads">{{ t('sidebar.noConversations') }}</div>
-    }
-  </nav>
+          <span class="thread-indicator" aria-hidden="true"></span>
+          <span class="thread-title">{{ title }}</span>
+          <button
+            class="btn-delete"
+            (click)="deleteThread(thread.id, $event)"
+            type="button"
+            [attr.aria-label]="t('sidebar.ariaDeleteConvo') + ': ' + title"
+          >
+            ✕
+          </button>
+        </div>
+      } @empty {
+        <div class="empty-threads">{{ t('sidebar.noConversations') }}</div>
+      }
+    </nav>
+  </div>
 
-  <div class="sidebar-footer">
+  <div class="sidebar-footer desktop-only">
     <div class="footer-divider" role="separator"></div>
     <button class="btn-clear-all" (click)="clearAll()" type="button">
       {{ t('sidebar.clearAll') }}

@@ -5,6 +5,14 @@
     (resetApp)="onResetApp()"
   ></app-sidebar>
   <app-chat class="chat-panel" (changeModel)="onRequestChangeModel()"></app-chat>
+  <div class="mobile-actions">
+    <button class="btn-clear-all" (click)="onClearAllRequest()" type="button">
+      {{ language.translate('sidebar.clearAll') }}
+    </button>
+    <button class="btn-reset-app" (click)="onResetApp()" type="button">
+      {{ language.translate('sidebar.resetApp') }}
+    </button>
+  </div>
 </div>
 
 @if (showSetupModal()) {
