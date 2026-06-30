@@ -19,7 +19,7 @@
   background-color: var(--bg-surface);
   display: flex;
   align-items: center;
-  min-height: 3rem;
+  height: 3.1rem;
 }
 
 .chat-header-accent {
@@ -52,7 +52,7 @@
 
 .status-badge {
   font-family: var(--font-heading);
-  font-size: clamp(0.75rem, 0.85vw, 0.8rem);
+  font-size: 0.8rem;
   font-weight: 500;
   color: var(--text-muted);
 
@@ -64,7 +64,7 @@
 
 .model-name {
   font-family: var(--font-heading);
-  font-size: clamp(0.65rem, 0.75vw, 0.7rem);
+  font-size: 0.7rem;
   color: var(--text-muted);
   margin-right: 0.5rem;
   white-space: nowrap;
@@ -82,7 +82,7 @@
   border-radius: var(--radius-sm);
   padding: 0.2rem 0.5rem;
   font-family: var(--font-heading);
-  font-size: clamp(0.6rem, 0.7vw, 0.65rem);
+  font-size: 0.65rem;
   font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
@@ -151,7 +151,7 @@
   &.user {
     .prompt {
       flex-shrink: 0;
-      font-size: clamp(0.85rem, 0.95vw, 0.9rem);
+      font-size: 0.9rem;
       color: var(--accent);
       line-height: 1.65;
       user-select: none;
@@ -165,7 +165,7 @@
 
 .message-content {
   font-family: var(--font-heading);
-  font-size: clamp(0.85rem, 0.95vw, 0.9rem);
+  font-size: 0.9rem;
   white-space: pre-wrap;
   word-break: break-word;
   min-width: 0;
@@ -245,7 +245,7 @@
   border: none;
   padding: 0.6rem 3rem 0.6rem 1rem;
   font-family: var(--font-heading);
-  font-size: clamp(0.85rem, 0.95vw, 0.9rem);
+  font-size: 0.9rem;
   line-height: 1.5;
   min-height: 2rem;
   max-height: 8rem;

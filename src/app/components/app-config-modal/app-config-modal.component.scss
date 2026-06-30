@@ -84,7 +84,7 @@
 
 .setup-title {
   font-family: var(--font-heading);
-  font-size: clamp(1.1rem, 2.2vw, 1.5rem);
+  font-size: 1.5rem;
   font-weight: 600;
   color: var(--text-primary);
   margin: 0 0 0.75rem 0;
@@ -100,7 +100,7 @@
 
 .setup-subtitle {
   font-family: var(--font-body);
-  font-size: clamp(0.85rem, 1.4vw, 0.95rem);
+  font-size: 0.95rem;
   color: var(--text-secondary);
   margin: 0 0 0.75rem 0;
   line-height: 1.5;
@@ -113,7 +113,7 @@
   padding: 0.75rem 1rem;
   margin: 0.75rem 0;
   font-family: var(--font-body);
-  font-size: clamp(0.8rem, 1.3vw, 0.9rem);
+  font-size: 0.9rem;
   color: #fbbf24;
   line-height: 1.5;
 }
@@ -165,7 +165,7 @@
 
 .model-id {
   font-family: var(--font-heading);
-  font-size: clamp(0.85rem, 1.4vw, 0.95rem);
+  font-size: 0.95rem;
   font-weight: 500;
   color: var(--text-primary);
   word-break: break-word;
@@ -188,7 +188,7 @@
 
 .model-meta {
   font-family: var(--font-heading);
-  font-size: clamp(0.7rem, 1.1vw, 0.75rem);
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
@@ -203,6 +203,7 @@
 .progress-container {
   width: 100%;
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 0.75rem;
 }
@@ -231,7 +232,7 @@
   border-radius: var(--radius-md);
   padding: 0.6rem 1.4rem;
   font-family: var(--font-heading);
-  font-size: clamp(0.85rem, 1.4vw, 0.9rem);
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.15s ease, box-shadow 0.15s ease;
@@ -272,7 +273,7 @@
 
 .section-label {
   font-family: var(--font-heading);
-  font-size: clamp(0.85rem, 1.6vw, 0.95rem);
+  font-size: 0.95rem;
   font-weight: 500;
   color: var(--text-secondary);
   margin: 0 0 0.5rem 0;
@@ -295,7 +296,7 @@
   border-radius: var(--radius-md);
   padding: clamp(0.4rem, 1vw, 0.6rem);
   font-family: var(--font-body);
-  font-size: clamp(0.8rem, 1.2vw, 0.9rem);
+  font-size: 0.9rem;
   color: var(--text-primary);
   cursor: pointer;
   transition: border-color 0.15s ease, background 0.15s ease;
@@ -330,7 +331,7 @@
 
 .intro-list li {
   font-family: var(--font-body);
-  font-size: clamp(0.8rem, 1.4vw, 0.9rem);
+  font-size: 0.9rem;
   color: var(--text-secondary);
   line-height: 1.5;
   padding-left: 1.1rem;
@@ -358,7 +359,7 @@
 .download-note p {
   margin: 0;
   font-family: var(--font-body);
-  font-size: clamp(0.75rem, 1.3vw, 0.85rem);
+  font-size: 0.85rem;
   color: var(--text-secondary);
   line-height: 1.5;
 }
@@ -409,15 +410,15 @@
 }
 
 .recommended-meta {
-  font-family: var(--font-heading);
-  font-size: clamp(0.7rem, 1.1vw, 0.75rem);
+    font-family: var(--font-heading);
+  font-size: 0.75rem;
   color: var(--text-muted);
 }
 
 .recommended-label {
   margin: 0;
   font-family: var(--font-body);
-  font-size: clamp(0.75rem, 1.2vw, 0.85rem);
+  font-size: 0.85rem;
   color: var(--text-secondary);
   line-height: 1.4;
 }
@@ -428,7 +429,7 @@
   text-align: center;
   margin: 0.75rem 0;
   font-family: var(--font-heading);
-  font-size: clamp(0.75rem, 1.3vw, 0.8rem);
+  font-size: 0.8rem;
   color: var(--text-muted);
   font-weight: 500;
 }
@@ -473,7 +474,7 @@
   border-radius: var(--radius-md);
   padding: clamp(0.5rem, 1.2vw, 0.65rem) clamp(0.75rem, 2vw, 1rem);
   font-family: var(--font-heading);
-  font-size: clamp(0.8rem, 1.4vw, 0.85rem);
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-primary);
   cursor: pointer;
@@ -542,7 +543,7 @@
   border: none;
   padding: 0.6rem 0;
   font-family: var(--font-heading);
-  font-size: clamp(0.8rem, 1.3vw, 0.85rem);
+  font-size: 0.85rem;
   color: var(--text-primary);
   min-width: 0;
 
