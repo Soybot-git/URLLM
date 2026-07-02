@@ -1,7 +1,6 @@
 import { Component, OnInit, inject, output, effect, signal, input, computed } from '@angular/core';
 import {
   prebuiltAppConfig,
-  hasModelInCache,
   deleteModelAllInfoInCache,
   deleteModelInCache,
 } from '@mlc-ai/web-llm';
@@ -45,14 +44,14 @@ export class AppConfigModalComponent implements OnInit {
 
   readonly setupState = signal<SetupState>('intro');
   readonly models = signal<ModelOption[]>([]);
-  readonly recommended = signal<Array<{ model: ModelOption; labelKey: string }>>([]);
   readonly selectedModelId = signal<string | null>(null);
   readonly selectedLanguage = signal<SupportedLanguage>(this.language.currentLanguage());
   readonly memoryUnknown = signal(false);
   readonly errorText = signal('');
   readonly deviceRamGB = signal<number | null>(null);
   readonly searchQuery = signal<string>('');
-  readonly activeAccordion = signal<'recommended' | 'all' | null>('recommended');
+  readonly showAllModels = signal(false);
+  readonly preselectedModel = computed(() => this.findBestModel(this.models(), this.deviceRamGB()));
   readonly filteredModels = computed(() => {
     const q = this.searchQuery().toLowerCase().trim();
     if (!q) return this.models();
@@ -63,6 +62,108 @@ export class AppConfigModalComponent implements OnInit {
 
   currentModelId = input<string | null>(null);
   readonly isChangeModelFlow = input<boolean>(false);
+
+  /**
+   * Mappa di priorità basata su benchmark oggettivi (MMLU, GSM8K, HumanEval),
+   * efficienza (qualità per GB di VRAM), dimensione comunità e recenza.
+   * Fonti: TinyWeights.dev, distil labs, AscentCore, Local AI Master, KDnuggets, HF Hub.
+   */
+  private readonly MODEL_SCORES: Record<string, number> = {
+    // === Tier 1 (100-97) — Best in class ===
+    'Qwen3-4B-q4f16_1-MLC': 100,
+    'Phi-4-mini-instruct-q4f16_1-MLC': 99,
+    'Qwen3-1.7B-q4f16_1-MLC': 97,
+
+    // === Tier 2 (96-91) — Eccellenti ===
+    'Qwen3.5-4B-q4f16_1-MLC': 96,
+    'Qwen3-4B-q4f32_1-MLC': 95,
+    'Qwen2.5-3B-Instruct-q4f16_1-MLC': 94,
+    'Phi-4-mini-instruct-q4f32_1-MLC': 93,
+    'Gemma-2-2b-it-q4f16_1-MLC': 92,
+    'Ministral-3-3B-Instruct-2512-BF16-q4f16_1-MLC': 91,
+    'Ministral-3-3B-Reasoning-2512-q4f16_1-MLC': 91,
+
+    // === Tier 3 (90-86) — Molto buoni ===
+    'Qwen3.5-2B-q4f16_1-MLC': 90,
+    'Qwen3-1.7B-q4f32_1-MLC': 89,
+    'Qwen2.5-3B-Instruct-q4f32_1-MLC': 89,
+    'Llama-3.2-3B-Instruct-q4f16_1-MLC': 88,
+    'Qwen2.5-1.5B-Instruct-q4f16_1-MLC': 87,
+    'Hermes-3-Llama-3.2-3B-q4f16_1-MLC': 86,
+    'Gemma-2-2b-it-q4f32_1-MLC': 86,
+
+    // === Tier 4 (85-82) — Solid ===
+    'Qwen3-8B-q4f16_1-MLC': 85,
+    'Qwen2.5-Coder-3B-Instruct-q4f16_1-MLC': 85,
+    'Llama-3.2-3B-Instruct-q4f32_1-MLC': 84,
+    'Qwen3.5-4B-q4f32_1-MLC': 84,
+    'Mistral-7B-Instruct-v0.3-q4f16_1-MLC': 83,
+    'Llama-3.1-8B-Instruct-q4f16_1-MLC': 82,
+    'Qwen2.5-7B-Instruct-q4f16_1-MLC': 82,
+    'Hermes-3-Llama-3.2-3B-q4f32_1-MLC': 82,
+    'Gemma-2-2b-it-q4f16_1-MLC-1k': 82,
+
+    // === Tier 5 (81-78) — Buoni ===
+    'Qwen3.5-2B-q4f32_1-MLC': 81,
+    'Qwen2.5-1.5B-Instruct-q4f32_1-MLC': 81,
+    'Hermes-3-Llama-3.1-8B-q4f16_1-MLC': 80,
+    'Llama-3.1-8B-Instruct-q4f16_1-MLC-1k': 80,
+    'DeepSeek-R1-Distill-Qwen-7B-q4f16_1-MLC': 79,
+    'Qwen3-8B-q4f32_1-MLC': 79,
+    'DeepSeek-R1-Distill-Llama-8B-q4f16_1-MLC': 78,
+    'Qwen2.5-Coder-3B-Instruct-q4f32_1-MLC': 78,
+
+    // === Tier 6 (77-70) — Discreti / Legacy moderni ===
+    'Mistral-7B-Instruct-v0.3-q4f32_1-MLC': 77,
+    'SmolLM2-1.7B-Instruct-q4f16_1-MLC': 76,
+    'Llama-3.2-1B-Instruct-q4f16_1-MLC': 75,
+    'Qwen2.5-0.5B-Instruct-q4f16_1-MLC': 74,
+    'Ministral-3-3B-Base-2512-q4f16_1-MLC': 74,
+    'Qwen2.5-Coder-1.5B-Instruct-q4f16_1-MLC': 73,
+    'Llama-3.2-1B-Instruct-q4f32_1-MLC': 72,
+    'SmolLM2-1.7B-Instruct-q4f32_1-MLC': 71,
+    'Qwen3.5-9B-q4f16_1-MLC': 71,
+
+    // === Tier 7 (<70) — Vecchi / Niche ===
+    'Gemma-2-9b-it-q4f16_1-MLC': 69,
+    'SmolLM2-360M-Instruct-q4f16_1-MLC': 65,
+    'TinyLlama-1.1B-Chat-v1.0-q4f16_1-MLC': 64,
+    'OLMo-2-0425-1B-Instruct-q4f16_1-MLC': 63,
+    'Hermes-2-Pro-Llama-3-8B-q4f16_1-MLC': 62,
+    'Qwen2.5-Coder-7B-Instruct-q4f16_1-MLC': 61,
+    'Llama-3-8B-Instruct-q4f16_1-MLC': 60,
+  };
+
+  private getModelPriority(modelId: string): number {
+    const direct = this.MODEL_SCORES[modelId];
+    if (direct !== undefined) return direct;
+
+    let score = 50;
+
+    if (modelId.includes('q4f16_1')) score += 4;
+    else if (modelId.includes('q4f32_1')) score += 0;
+    else score -= 5;
+
+    if (modelId.includes('snowflake') || modelId.includes('arctic-embed')) score -= 40;
+
+    if (modelId.startsWith('Llama-2') || modelId.includes('Phi-2') ||
+        modelId.includes('phi-2') || modelId.includes('phi-1') ||
+        modelId.includes('redpajama') || modelId.includes('stablelm') ||
+        modelId.includes('Wizard')) {
+      score -= 15;
+    }
+
+    if (modelId.includes('Qwen3') || modelId.includes('Qwen2.5') ||
+        modelId.includes('Qwen3.5') || modelId.includes('Phi-4')) score += 10;
+    if (modelId.includes('Llama-3.2') || modelId.includes('Llama-3.1') ||
+        modelId.includes('Hermes-3') || modelId.includes('Ministral')) score += 5;
+    if (modelId.includes('Gemma-2') || modelId.includes('Phi-3.5') ||
+        modelId.includes('DeepSeek-R1')) score += 2;
+
+    if (modelId.includes('-1k') && !modelId.includes('1k-')) score -= 8;
+
+    return score;
+  }
 
   constructor() {
     effect(() => {
@@ -97,18 +198,32 @@ export class AppConfigModalComponent implements OnInit {
     return this.language.translate('modal.memoryDetected').replace('{{gb}}', String(gb));
   }
 
-  private findClosest(models: ModelOption[], targetMB: number, excludeIds: string[]): ModelOption | null {
-    let closest: ModelOption | null = null;
-    let minDiff = Infinity;
-    for (const m of models) {
-      if (m.vram_required_MB === undefined || excludeIds.includes(m.model_id)) continue;
-      const diff = Math.abs(m.vram_required_MB - targetMB);
-      if (diff < minDiff) {
-        minDiff = diff;
-        closest = m;
+  /**
+   * Seleziona il miglior modello per il dispositivo in base a:
+   * 1. Modelli che rientrano nel 50% della RAM (target fluido)
+   * 2. Se nessuno, espande al 60%, poi 70%
+   * 3. Ordina per priority score (basato su benchmark oggettivi)
+   * 4. A parità di score, favorisce il modello con meno VRAM
+   */
+  private findBestModel(models: ModelOption[], ramGB: number | null): ModelOption | null {
+    if (!ramGB || models.length === 0) return null;
+
+    for (const pct of [0.5, 0.6, 0.7]) {
+      const targetMB = ramGB * 1024 * pct;
+      const candidates = models.filter(
+        m => m.vram_required_MB !== undefined && m.vram_required_MB <= targetMB
+      );
+      if (candidates.length > 0) {
+        candidates.sort((a, b) => {
+          const pa = this.getModelPriority(a.model_id);
+          const pb = this.getModelPriority(b.model_id);
+          if (pb !== pa) return pb - pa;
+          return (a.vram_required_MB ?? 0) - (b.vram_required_MB ?? 0);
+        });
+        return candidates[0];
       }
     }
-    return closest;
+    return null;
   }
 
   /**
@@ -159,29 +274,14 @@ export class AppConfigModalComponent implements OnInit {
         return bv - av;
       });
 
-      let recommendedList: Array<{ model: ModelOption; labelKey: string }> = [];
-      if (!this.memoryUnknown() && typeof rawMem === 'number') {
-        const totalRamMB = rawMem * 1024;
-        const optimized = filtered.filter((m) => m.low_resource_required);
-        if (optimized.length >= 3) {
-          const top70 = this.findClosest(optimized, totalRamMB * 0.7, []);
-          const mid50 = top70 ? this.findClosest(optimized, totalRamMB * 0.5, [top70.model_id]) : null;
-          const low30 = top70 && mid50
-            ? this.findClosest(optimized, totalRamMB * 0.3, [top70.model_id, mid50.model_id])
-            : null;
-          if (top70 && mid50 && low30) {
-            recommendedList = [
-              { model: top70, labelKey: 'modal.recommendedTopLabel' },
-              { model: mid50, labelKey: 'modal.recommendedMidLabel' },
-              { model: low30, labelKey: 'modal.recommendedLowLabel' },
-            ];
-            this.selectedModelId.set(top70.model_id);
-          }
-        }
+      const best = !this.memoryUnknown() && typeof rawMem === 'number'
+        ? this.findBestModel(filtered, rawMem)
+        : null;
+      if (best) {
+        this.selectedModelId.set(best.model_id);
       }
 
       this.models.set(filtered);
-      this.recommended.set(recommendedList);
       this.setupState.set('selecting');
     } catch (err) {
       console.error(err);
@@ -207,8 +307,8 @@ export class AppConfigModalComponent implements OnInit {
     this.searchQuery.set('');
   }
 
-  toggleAccordion(section: 'recommended' | 'all'): void {
-    this.activeAccordion.update(current => current === section ? null : section);
+  toggleModelList(): void {
+    this.showAllModels.update(v => !v);
   }
 
   /**

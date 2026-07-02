@@ -77,12 +77,11 @@ npm run watch      # build --watch (dev mode)
 | Language | **TypeScript 5.9** |
 | AI Engine | **MLC `@mlc-ai/web-llm` 0.2.84** (WebWorker + WebGPU) |
 | Stili | **SCSS** vanilla — variabili CSS, `clamp()` fluid, tema custom |
-| Testing | **Vitest** + jsdom |
 | Package manager | npm 11 |
 
 ## Compatibilità modelli
 
-Al primo avvio l'app rileva la RAM del dispositivo e filtra i modelli compatibili (max 70% RAM). I modelli sono ordinati per VRAM decrescente. La scelta è assistita da una sezione "Consigliati" che propone 3 fasce: potenza (70%), bilanciato (50%), velocità (30%).
+Al primo avvio l'app rileva la RAM del dispositivo e filtra i modelli compatibili (max 70% RAM). Un modello viene preselezionato in base a benchmark oggettivi (MMLU, GSM8K, HumanEval) scegliendo il miglior rapporto qualità/velocità entro il 50% della RAM. Sotto, un pulsante "Vedi tutti i modelli" espande la lista completa ordinata per VRAM decrescente.
 
 I modelli scaricati mantengono le proprie licenze d'uso originali. Verifica i termini di ciascun modello prima dell'utilizzo.
 

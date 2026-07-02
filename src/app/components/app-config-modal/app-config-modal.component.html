@@ -84,59 +84,41 @@
           <p class="setup-subtitle">{{ memoryDetectedText(deviceRamGB()!) }}</p>
         }
 
-        <div class="accordion-area">
-          @if (recommended().length > 0) {
-            <div class="accordion" [class.open]="activeAccordion() === 'recommended'">
-              <button
-                class="accordion-header"
-                (click)="toggleAccordion('recommended')"
-                type="button"
-                [attr.aria-expanded]="activeAccordion() === 'recommended'"
-              >
-                <span class="accordion-title">{{ t('modal.recommendedTitle') }}</span>
-                <span class="accordion-chevron" [class.open]="activeAccordion() === 'recommended'">▼</span>
-              </button>
-
-              @if (activeAccordion() === 'recommended') {
-                <div class="accordion-body">
-                  <div class="recommended-list">
-                    @for (rec of recommended(); track rec.model.model_id) {
-                      <button
-                        class="recommended-card"
-                        [class.selected]="selectedModelId() === rec.model.model_id"
-                        (click)="onSelectModel(rec.model.model_id)"
-                        type="button"
-                      >
-                        <div class="recommended-header">
-                          <span class="model-id">{{ rec.model.model_id }}</span>
-                          @if (rec.model.low_resource_required) {
-                            <span class="badge">{{ t('modal.lightBadge') }}</span>
-                          }
-                        </div>
-                        <div class="recommended-meta">
-                          <span>{{ t('modal.vramLabel') }} {{ rec.model.vram_required_MB?.toFixed(1) }} MB</span>
-                        </div>
-                        <p class="recommended-label">{{ t(rec.labelKey) }}</p>
-                      </button>
-                    }
-                  </div>
-                </div>
-              }
-            </div>
+        <div class="selection-area">
+          @if (preselectedModel(); as model) {
+            <button
+              class="preselected-card"
+              [class.selected]="selectedModelId() === model.model_id"
+              (click)="onSelectModel(model.model_id)"
+              type="button"
+              [attr.aria-label]="'Seleziona ' + model.model_id"
+            >
+              <div class="preselected-header">
+                <span class="model-id">{{ model.model_id }}</span>
+                <span class="badge recommended">{{ t('modal.preselectedBadge') }}</span>
+              </div>
+              <div class="preselected-meta">
+                <span>{{ t('modal.vramLabel') }} {{ model.vram_required_MB?.toFixed(1) }} MB</span>
+                @if (model.low_resource_required) {
+                  <span class="badge light">{{ t('modal.lightBadge') }}</span>
+                }
+              </div>
+              <p class="preselected-desc">{{ t('modal.preselectedDescription') }}</p>
+            </button>
           }
 
-          <div class="accordion" [class.open]="activeAccordion() === 'all'">
-            <button
-              class="accordion-header"
-              (click)="toggleAccordion('all')"
-              type="button"
-              [attr.aria-expanded]="activeAccordion() === 'all'"
-            >
-              <span class="accordion-title">{{ t('modal.allModels') }}</span>
-              <span class="accordion-chevron" [class.open]="activeAccordion() === 'all'">▼</span>
-            </button>
+          <button
+            class="show-all-btn"
+            (click)="toggleModelList()"
+            type="button"
+            [attr.aria-expanded]="showAllModels()"
+          >
+            {{ showAllModels() ? t('modal.hideAllModels') : t('modal.showAllModels') }}
+            <span class="chevron" [class.open]="showAllModels()">▼</span>
+          </button>
 
-            @if (activeAccordion() === 'all') {
+          @if (showAllModels()) {
+            <div class="model-list-section">
               <div class="search-wrapper">
                 <span class="search-icon" aria-hidden="true">◆</span>
                 <input
@@ -153,39 +135,37 @@
                   </button>
                 }
               </div>
-              <div class="accordion-body">
-                <ul class="model-list" role="listbox" [attr.aria-label]="t('modal.modalAriaSelect')">
-                  @for (model of filteredModels(); track model.model_id) {
-                    <li
-                      class="model-option"
-                      [class.selected]="selectedModelId() === model.model_id"
-                      (click)="onSelectModel(model.model_id)"
-                      role="option"
-                      [attr.aria-selected]="selectedModelId() === model.model_id"
-                      tabindex="0"
-                      (keydown.enter)="onSelectModel(model.model_id)"
-                    >
-                      <div class="model-header">
-                        <span class="model-id">{{ model.model_id }}</span>
-                        @if (model.low_resource_required) {
-                          <span class="badge">{{ t('modal.lightBadge') }}</span>
-                        }
-                      </div>
-                      <div class="model-meta">
-                        @if (model.vram_required_MB !== undefined) {
-                          <span>{{ t('modal.vramLabel') }} {{ model.vram_required_MB.toFixed(1) }} MB</span>
-                        } @else {
-                          <span>{{ t('modal.vramUnknown') }}</span>
-                        }
-                      </div>
-                    </li>
-                  } @empty {
-                    <li class="model-empty">{{ t('modal.noModels') }}</li>
-                  }
-                </ul>
-              </div>
-            }
-          </div>
+              <ul class="model-list" role="listbox" [attr.aria-label]="t('modal.modalAriaSelect')">
+                @for (model of filteredModels(); track model.model_id) {
+                  <li
+                    class="model-option"
+                    [class.selected]="selectedModelId() === model.model_id"
+                    (click)="onSelectModel(model.model_id)"
+                    role="option"
+                    [attr.aria-selected]="selectedModelId() === model.model_id"
+                    tabindex="0"
+                    (keydown.enter)="onSelectModel(model.model_id)"
+                  >
+                    <div class="model-header">
+                      <span class="model-id">{{ model.model_id }}</span>
+                      @if (model.low_resource_required) {
+                        <span class="badge light">{{ t('modal.lightBadge') }}</span>
+                      }
+                    </div>
+                    <div class="model-meta">
+                      @if (model.vram_required_MB !== undefined) {
+                        <span>{{ t('modal.vramLabel') }} {{ model.vram_required_MB.toFixed(1) }} MB</span>
+                      } @else {
+                        <span>{{ t('modal.vramUnknown') }}</span>
+                      }
+                    </div>
+                  </li>
+                } @empty {
+                  <li class="model-empty">{{ t('modal.noModels') }}</li>
+                }
+              </ul>
+            </div>
+          }
         </div>
 
         <div class="setup-actions">

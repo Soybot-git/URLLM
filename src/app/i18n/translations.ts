@@ -36,7 +36,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'modal.step1Bullet3': 'Performance limitate: analizziamo le capacità del tuo dispositivo per suggerirti solo i modelli compatibili. Su PC o smartphone poco performanti i modelli possono essere estremamente lenti o fornire risposte errate.',
     'modal.step1Bullet4': 'I modelli scaricati mantengono le proprie licenze d\'uso originali. Verifica i termini di ciascun modello prima dell\'utilizzo.',
     'modal.step1ProceedBtn': 'Ho capito, procedi',
-    'modal.downloadNote': 'Nota: questo download è richiesto solo la prima volta. Le volte successive il modello si avvierà istantaneamente dalla cache. Potrai cambiare modello o cancellare i dati in qualsiasi momento dalle impostazioni.',
+    'modal.downloadNote': 'Nota: questo download è richiesto solo la prima volta. Le volte successive il modello si avvierà istantaneamente dalla cache. Potrai cambiare modello o cancellare i dati in qualsiasi momento.',
 
     'modal.titleChecking': 'Analisi dispositivo in corso...',
     'modal.subtitleChecking': 'Verifichiamo WebGPU e calcoliamo i modelli compatibili.',
@@ -61,12 +61,10 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'modal.lightBadge': 'Ottimizzato',
     'modal.cancelChangeModel': 'Annulla cambio modello',
 
-    'modal.recommendedTitle': 'Modelli consigliati',
-    'modal.recommendedTopLabel': '70% RAM — Massima potenza, minime allucinazioni, risposta più lenta',
-    'modal.recommendedMidLabel': '50% RAM — Bilanciato: buona potenza e velocità',
-    'modal.recommendedLowLabel': '30% RAM — Massima velocità, ideale su hardware limitato',
-    'modal.recommendedOrChoose': 'Lista completa',
-    'modal.allModels': 'Tutti i modelli',
+    'modal.preselectedBadge': 'Consigliato',
+    'modal.preselectedDescription': 'Miglior equilibrio tra qualità e velocità per il tuo dispositivo, selezionato in base ai benchmark e alla memoria disponibile.',
+    'modal.showAllModels': 'Vedi tutti i modelli',
+    'modal.hideAllModels': 'Nascondi lista',
     'modal.searchPlaceholder': 'Cerca modello...',
     'modal.searchClear': 'Cancella ricerca',
 
@@ -124,7 +122,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'modal.step1Bullet3': 'Limited performance: we analyze your device capabilities to suggest only compatible models. On low-end PCs or smartphones, models can be extremely slow or provide incorrect answers.',
     'modal.step1Bullet4': 'Downloaded models retain their original licenses. Check each model\'s terms before use.',
     'modal.step1ProceedBtn': 'Got it, proceed',
-    'modal.downloadNote': 'Note: this download is only required the first time. Afterwards, the model will start instantly from cache. You can change the model or delete data at any time from the settings.',
+    'modal.downloadNote': 'Note: this download is only required the first time. Afterwards, the model will start instantly from cache. You can change the model or delete data at any time.',
 
     'modal.titleChecking': 'Analyzing device...',
     'modal.subtitleChecking': 'We are checking WebGPU and calculating compatible models.',
@@ -149,12 +147,10 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'modal.lightBadge': 'Optimized',
     'modal.cancelChangeModel': 'Cancel model change',
 
-    'modal.recommendedTitle': 'Recommended models',
-    'modal.recommendedTopLabel': '70% RAM — Maximum power, minimal hallucinations, slower response',
-    'modal.recommendedMidLabel': '50% RAM — Balanced: good power and speed',
-    'modal.recommendedLowLabel': '30% RAM — Maximum speed, ideal for limited hardware',
-    'modal.recommendedOrChoose': 'Full list',
-    'modal.allModels': 'All models',
+    'modal.preselectedBadge': 'Recommended',
+    'modal.preselectedDescription': 'Best balance of quality and speed for your device, selected based on benchmarks and available memory.',
+    'modal.showAllModels': 'See all models',
+    'modal.hideAllModels': 'Hide list',
     'modal.searchPlaceholder': 'Search model...',
     'modal.searchClear': 'Clear search',
 
@@ -212,7 +208,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'modal.step1Bullet3': "Performances limitées : nous analysons les capacités de votre appareil pour ne suggérer que des modèles compatibles. Sur les PC ou smartphones peu performants, les modèles peuvent être extrêmement lents ou fournir des réponses erronées.",
     'modal.step1Bullet4': "Les modèles téléchargés conservent leurs licences d'utilisation d'origine. Vérifiez les conditions de chaque modèle avant utilisation.",
     'modal.step1ProceedBtn': "J'ai compris, continuer",
-    'modal.downloadNote': "Remarque : ce téléchargement n'est nécessaire que la première fois. Par la suite, le modèle démarrera instantanément depuis le cache. Vous pourrez changer de modèle ou supprimer les données à tout moment dans les paramètres.",
+    'modal.downloadNote': "Remarque : ce téléchargement n'est nécessaire que la première fois. Par la suite, le modèle démarrera instantanément depuis le cache. Vous pourrez changer de modèle ou supprimer les données à tout moment.",
 
     'modal.titleChecking': "Analyse de l\u0027appareil en cours...",
     'modal.subtitleChecking': 'Nous vérifions WebGPU et calculons les modèles compatibles.',
@@ -237,12 +233,10 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'modal.lightBadge': 'Optimisé',
     'modal.cancelChangeModel': 'Annuler le changement de modèle',
 
-    'modal.recommendedTitle': 'Modèles recommandés',
-    'modal.recommendedTopLabel': '70% RAM — Puissance maximale, hallucinations minimales, réponse plus lente',
-    'modal.recommendedMidLabel': '50% RAM — Équilibré : bonne puissance et vitesse',
-    'modal.recommendedLowLabel': '30% RAM — Vitesse maximale, idéal pour matériel limité',
-    'modal.recommendedOrChoose': 'Liste complète',
-    'modal.allModels': 'Tous les modèles',
+    'modal.preselectedBadge': 'Recommandé',
+    'modal.preselectedDescription': 'Meilleur équilibre entre qualité et rapidité pour votre appareil, sélectionné selon les benchmarks et la mémoire disponible.',
+    'modal.showAllModels': 'Voir tous les modèles',
+    'modal.hideAllModels': 'Masquer la liste',
     'modal.searchPlaceholder': 'Rechercher un modèle...',
     'modal.searchClear': 'Effacer la recherche',
 
@@ -300,7 +294,7 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'modal.step1Bullet3': 'Eingeschränkte Leistung: Wir analysieren die Fähigkeiten Ihres Geräts, um nur kompatible Modelle vorzuschlagen. Auf schwachen PCs oder Smartphones können Modelle extrem langsam sein oder falsche Antworten liefern.',
     'modal.step1Bullet4': 'Heruntergeladene Modelle behalten ihre ursprünglichen Lizenzen. Überprüfen Sie die Bedingungen jedes Modells vor der Nutzung.',
     'modal.step1ProceedBtn': 'Verstanden, fortfahren',
-    'modal.downloadNote': 'Hinweis: Dieser Download ist nur beim ersten Mal erforderlich. Danach startet das Modell sofort aus dem Cache. Sie können das Modell jederzeit wechseln oder Daten in den Einstellungen löschen.',
+    'modal.downloadNote': 'Hinweis: Dieser Download ist nur beim ersten Mal erforderlich. Danach startet das Modell sofort aus dem Cache. Sie können das Modell jederzeit ändern oder die Daten löschen.',
 
     'modal.titleChecking': 'Gerät wird analysiert...',
     'modal.subtitleChecking': 'Wir überprüfen WebGPU und berechnen kompatible Modelle.',
@@ -325,12 +319,10 @@ export const TRANSLATIONS: Record<SupportedLanguage, Record<string, string>> = {
     'modal.lightBadge': 'Optimiert',
     'modal.cancelChangeModel': 'Modellwechsel abbrechen',
 
-    'modal.recommendedTitle': 'Empfohlene Modelle',
-    'modal.recommendedTopLabel': '70% RAM — Maximale Leistung, minimale Halluzinationen, langsamere Antwort',
-    'modal.recommendedMidLabel': '50% RAM — Ausgewogen: gute Leistung und Geschwindigkeit',
-    'modal.recommendedLowLabel': '30% RAM — Maximale Geschwindigkeit, ideal für begrenzte Hardware',
-    'modal.recommendedOrChoose': 'Vollständige Liste',
-    'modal.allModels': 'Alle Modelle',
+    'modal.preselectedBadge': 'Empfohlen',
+    'modal.preselectedDescription': 'Bestes Gleichgewicht zwischen Qualität und Geschwindigkeit für Ihr Gerät, basierend auf Benchmarks und verfügbarem Speicher.',
+    'modal.showAllModels': 'Alle Modelle anzeigen',
+    'modal.hideAllModels': 'Liste ausblenden',
     'modal.searchPlaceholder': 'Modell suchen...',
     'modal.searchClear': 'Suche löschen',
 
